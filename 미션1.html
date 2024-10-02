@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>study plan</title>
+    <style>
+        h1 {
+            text-align: center;
+            font-weight: bold;
+        }
+        body {
+            background-color: aliceblue;
+        }
+        hr{
+            width:80%;
+        }
+        input{
+            display: block;
+            margin: auto;
+            padding: 10px;
+            width:65%;
+            border: solid 2px cadetblue;
+        }
+        .container{
+            width:65%;
+            display: block;
+            margin: auto;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr); 
+            grid-template-rows: repeat(7, 1fr); 
+            border: 2px solid cadetblue;
+        }
+        .cell_centered{
+            text-decoration: underline;
+            text-decoration-color: slategrey;
+            font-weight: bold;
+            display: flex;
+            justify-content: center;
+            align-items: center; 
+        }
+        .cell{
+            height:80px;
+        }
+
+    </style>
+</head>
+
+<body>
+    <h1>UMC Study Plan</h1>
+    <hr>
+    <input type="text" id="input" placeholder="스터디 계획을 작성해보세요">
+    <br>
+    <div class="container"><!-- 3열 7행의 셀을 생성 -->
+        <div class="cell_centered" style="grid-column: 1; grid-row: 1;">해야 할 일</div>
+        <div class="cell_centered" style="grid-column: 3; grid-row: 1;">완료한 일</div>
+        <div class="cell"></div>
+        <div id = "task1" class="cell"></div>
+        <div class="cell"></div>
+        <div id = "complete1" class="cell"></div>
+        <div id = "task2" class="cell"></div>
+        <div class="cell"></div>
+        <div id = "complete2" class="cell"></div>
+        <div id = "task3" class="cell"></div>
+        <div class="cell"></div>
+        <div id = "complete3" class="cell"></div>
+        <div id = "task4" class="cell"></div>
+        <div class="cell"></div>
+        <div id = "complete4" class="cell"></div>
+        <div id = "task5" class="cell"></div>
+        <div class="cell"></div>
+        <div id = "complete5" class="cell"></div>
+        <div id = "task6" class="cell"></div>
+        <div class="cell"></div>
+        <div id = "complete6" class="cell"></div>
+    </div>
+</body>
+
+<script>
+    var currentTask = 1;
+
+    document.getElementById("input").addEventListener('keydown', function(event) {
+            if (event.key === 'Enter') {
+                console.log(currentTask);
+                var inputText = event.target.value;//input에 입력한 글자
+                var taskId = "task" + currentTask;//task 아이디 번호
+                var taskElement = document.getElementById(taskId);//task 아이디 요소 가져오기
+
+                if(currentTask<7){
+                    taskElement.innerText = inputText;
+                    event.target.value = ""; //지우기
+                    currentTask++;
+
+                    var button = document.createElement('button');
+                    button.innerText = "완료";
+                    taskElement.appendChild(button);
+                }
+                else{
+                    alert("더 이상 입력할 수 없습니다.");
+                }
+            }
+        });
+    
+
+        for (let i = 1; i <= 6; i++) {
+            document.getElementById("task" + i).addEventListener('click', function(event) {
+            var taskElement = document.getElementById("task" + i); // task의 요소 가져오기
+            var completeElement = document.getElementById("complete" + i); // complete 요소 가져오기
+            var complete_task = taskElement.childNodes[0].textContent.trim(); // 첫 번째 텍스트 노드의 텍스트 가져오기
+            completeElement.innerText = complete_task;
+            taskElement.innerText = "";
+
+            var button = document.createElement('button');
+            button.innerText = "삭제";
+            completeElement.appendChild(button);
+
+            document.getElementById("complete" + i).addEventListener('click', function(event) {
+            completeElement.parentNode.removeChild(completeElement);
+        });
+    });
+}
+</script>
+</html>
