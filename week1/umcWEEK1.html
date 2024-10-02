@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <link rel="stylesheet" href="umcWEEK1.css">
+</head>
+
+<body>
+  <section>
+    <!--헤더-->
+    <h2> UMC Study Plan</h2>
+  </section>
+  
+  <section>
+    <!--입력창-->
+    <form class="in" onsubmit="addElement(event)">
+      <input id="task" type="text"  required placeholder = "스터디 계획을 작성하세요!">
+    </form>
+  </section>
+
+  <section>
+    <div id="container">
+      <!--해야 할 일-->
+      <div id="task">
+        <p class="bold-task">해야 할 일</p>
+        <ul id="taskItem"></ul>
+      </div>
+      <!--해낸 일-->
+      <div id="done">
+        <p class="bold-task">해낸 일</p>
+        <ul id="doneItem"></ul>
+      </div>
+    </div>
+  </section>
+
+  <script src="umcWEEK1.js"></script>
+  
+</body>
+</html>
