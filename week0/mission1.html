@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Position: Sticky</title>
+  <style>
+    nav{
+      display: flex;
+      flex-direction: rows;
+    }
+    
+    nav ul {
+      list-style-type: none;
+      display: flex;
+      justify-content:right; /* 오른쪽 정렬 */
+      align-content: center;
+      padding: 0;
+      margin: 0;
+      width: 100%;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+    }
+
+    .logo img {
+      margin-right: 10px;
+    }
+
+    .others {
+      display: flex;
+      align-items: center;
+      gap: 20px; /* 메뉴 항목들 사이의 간격 */
+      margin-right: 15px;
+    }
+
+
+    @media (max-width: 750px) {
+      nav ul{
+        display: flex;
+        justify-content: space-between;
+      }
+
+      nav .logo span{
+        display: none;
+        
+      }
+
+    }
+  </style>
+</head>
+
+<body>
+  <nav>
+    <li class="logo">
+      <img src="https://www.smumc.co.kr/_next/image?url=%2Fimages%2Fmain-light-logo.webp&w=48&q=75" alt="logo" />
+      <span>SMUMC</span>
+    </li>
+    <ul>
+        <li class="others">PROJECTS</li>
+        <li class="others">MEMBERS</li>
+        <li class="others">NOTICE</li>
+        <li class="others"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b2/Hamburger_icon.svg/640px-Hamburger_icon.svg.png" width="20" ></li>
+    </ul>
+  </nav>
+</body>
+
+</html>
