@@ -46,11 +46,11 @@ function moveToTask(task){
   //삭제 버튼 추가
   const deleteBtn=document.createElement('button');
   deleteBtn.classList.add('my-btn')
-  complete.textContent = '삭제';
-  complete.onclick = function() {
+  deleteBtn.textContent = '삭제';
+  deleteBtn.onclick = function() {
     deleteElement(task);
   };
-  
+
   task.appendChild(deleteBtn);
 
   // 해야 할 일 리스트에서 삭제
@@ -60,6 +60,11 @@ function moveToTask(task){
   // 해낸 일 리스트에 항목 추가
   doneList.appendChild(task);
 
+}
+
+function deleteElement(task){
+  const doneList = document.getElementById('doneItem');
+  doneList.removeChild(task);
 }
 
 
