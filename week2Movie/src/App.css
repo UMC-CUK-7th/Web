@@ -1,0 +1,49 @@
+.root {
+  width: 90%;
+  display: flex;
+  justify-content: center; /* 자식 요소 가운데 정렬 */
+  align-items: center;
+}
+
+.movies {
+  display: flex;
+  flex-wrap: wrap; /* 요소들이 줄바꿈되도록 설정 */
+  justify-content: space-around; /* 자식 요소 간의 간격을 균등하게 조절 */
+  align-items: center;
+  
+}
+
+.movie {
+  position: relative; /* 오버레이를 위해 position 설정 */
+  display: flex;
+  border-radius: 50px;
+  overflow: hidden; /* 자식 요소가 부모 영역을 벗어나지 않도록 설정 */
+  margin:20px
+}
+
+/* 이미지 스타일 */
+.movie img {
+  object-fit: cover; /* 이미지 비율을 유지하며 잘라내기 */
+  border-radius: 50px; /* 모서리를 둥글게 설정 */
+  width:500;
+  height:750px;
+}
+
+/* 오버레이 스타일 */
+.movie::before {
+  content: ''; /* 비어있는 콘텐츠 */
+  position: absolute; /* 부모 요소를 기준으로 절대 위치 설정 */
+  top: 0; 
+  left: 0; 
+  right: 0; 
+  bottom: 0; 
+  background-color: rgba(0, 0, 0, 0.4); /* 어두운 색상의 반투명 오버레이 */
+  opacity: 0; /* 기본적으로 오버레이는 보이지 않음 */
+  transition: opacity 0.2s; /* 부드러운 전환 효과 */
+  border-radius: 20px; /* 모서리를 둥글게 설정 */
+}
+
+/* 마우스를 올렸을 때 오버레이를 보이게 */
+.movie:hover::before {
+  opacity: 70; /* 마우스 오버 시 오버레이 보이게 */
+}
