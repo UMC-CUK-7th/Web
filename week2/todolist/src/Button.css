@@ -1,0 +1,13 @@
+.todo-button {
+    background-color: #ddd;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 5px 10px;
+    cursor: pointer;
+    margin: 0 5px;
+  }
+  
+  .todo-button:hover {
+    background-color: #bbb;
+  }
+  
