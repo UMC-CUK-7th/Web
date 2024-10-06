@@ -1,0 +1,78 @@
+/* App.css */
+body {
+  display: flex;
+    justify-content: center; /* 수평 중앙 정렬 */
+    align-items: center; /* 수직 중앙 정렬 */
+    height: 100vh; /* 전체 화면 높이 */
+    margin: 0; /* 기본 마진 제거 */
+}
+
+.app-container {
+  width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  text-align: center;
+}
+
+.todo-input {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.input-field {
+  padding: 5px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+  flex-grow: 1;
+  margin-right: 10px;
+}
+
+.input-button {
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.input-button:hover {
+  background-color: #45a049;
+}
+
+.todo-list {
+  list-style-type: none;
+  padding: 0;
+}
+
+.todo-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  border-bottom: 1px solid #eee;
+}
+
+.todo-button {
+  background-color: #45a049;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 5px 10px;
+  cursor: pointer;
+  margin: 0 5px;
+}
+
+.todo-button:hover {
+  background-color: #bbb;
+}
+
+.edit-input {
+  padding: 5px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  flex-grow: 1;
+  margin-right: 10px;
+}
