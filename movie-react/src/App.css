@@ -1,0 +1,21 @@
+/* app.css */
+.app {
+  text-align: center;
+}
+
+.movies-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+}
+
+.movie-item {
+  width: 200px;
+  text-align: center;
+}
+
+.movie-poster {
+  width: 100%;
+  height: auto;
+}
