@@ -32,13 +32,13 @@ const ImageContainer = styled.div`
 const Card = styled.div`
     position:relative;
     display:flex;
-    
+    border-radius:10px;
     color:white;
     overflow:hidden;
     margin:15px;
     width: 330px; /* px 단위를 추가하여 적절한 크기 지정 */
     height:230px; /* px 단위를 추가하여 적절한 크기 지정 */
-
+    background-size: cover;
 `;
 
 
