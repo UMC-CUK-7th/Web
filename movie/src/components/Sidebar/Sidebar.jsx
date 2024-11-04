@@ -21,7 +21,7 @@ const Sidebar = () => {
   const toggleSearch = () => {
     setIsSearchOpen(!isSearchOpen);
     if (!isSearchOpen) {
-      navigate('/search'); // 검색창을 열면서 /search 경로로 이동
+      navigate('/search'); 
     }
   };
 
