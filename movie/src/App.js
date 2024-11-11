@@ -8,6 +8,12 @@ import LatestMovies from './components/LatestMovies/LatestMovies';
 import TheaterMovies from './components/TheaterMovies/TheaterMovies';
 import LoginModal from './pages/LoginModal';
 import SignupModal from './pages/SignupModal';
+import CategoryPage from './pages/Category/Category';
+import Nowplaying from './pages/Nowplaying/Nowplaying';
+import Popular from './pages/Popular/Popular';
+import LatestGood from './pages/LatestGood/LatestGood';
+import Upcomming from './pages/Upcomming/Upcomming';
+import Search from './pages/Search/Search';
 import './App.css';
 
 function App() {
@@ -33,9 +39,15 @@ function App() {
           <main className="main-content">
             <Routes>
               <Route path="/" element={<MovieList />} />
+              <Route path="/category" element={<CategoryPage />} />
+              <Route path="/nowplaying" element={<Nowplaying />} />
+              <Route path="/popular" element={<Popular />} />
+              <Route path="/latestGood" element={<LatestGood />} />
+              <Route path="/upcomming" element={<Upcomming />} />
               <Route path="/recommended" element={<RecommendedMovies />} />
               <Route path="/latest" element={<LatestMovies />} />
               <Route path="/theater" element={<TheaterMovies />} />
+              <Route path="/search" element={<Search />} />
 
               <Route
                 path="/login"
