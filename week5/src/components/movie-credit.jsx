@@ -1,41 +1,78 @@
+import { useQuery } from '@tanstack/react-query';
 import styled from "styled-components";
-import useCustomFetch from "../hooks/useCustomFetch"
-import Credit from "./credit";
 
-const MovieCredit=({url})=>{
-    const {data:credit, isLoading, isError}=useCustomFetch({url});
+const fetchMovieCredit = async (url) => {
+    const response = await fetch(url);
+    if (!response.ok) {
+        throw new Error('Failed to fetch movie credits');
+    }
+    return response.json();
+};
 
-    // 로딩 및 에러 처리
-    if (isLoading) return <p>Loading...</p>;
-    if (isError) return <p>Error fetching movie details.</p>;
+const MovieCredit = ({ url }) => {
+    const { data: credits, isLoading, isError, error } = useQuery({
+        queryKey: ['movieCredits', url],  // Query Key는 배열로 전달
+        queryFn: () => fetchMovieCredit(url),  // Query Function은 함수로 전달
+        staleTime: 1000 * 60 * 5, // 5분
+        cacheTime: 1000 * 60 * 10, // 10분
+    });
 
-    // movie 데이터가 유효한지 확인
-    if (!credit) return <p>No movie data available.</p>;
+    // 로딩 처리
+    if (isLoading) {
+        return <LoadingMessage>Loading credits...</LoadingMessage>;
+    }
 
-    console.log(credit);
+    // 에러 처리
+    if (isError) {
+        return <ErrorMessage>Error: {error.message}</ErrorMessage>;
+    }
 
+    // 데이터 유효성 확인
+    if (!credits) {
+        return <ErrorMessage>No credits available.</ErrorMessage>;
+    }
 
+    // 영화 출연진 렌더링
     return (
-        <Block>
-            {credit.cast?.map((creditItem) => (
-                <Credit key={creditItem.id} credit={creditItem} />
-            ))}
-        </Block>
-        
-    )
-   
-
-}
+        <CreditSection>
+            <h3>Cast</h3>
+            <ul>
+                {credits.cast?.map((cast) => (
+                    <li key={cast.id}>
+                        <span>{cast.name}</span>
+                    </li>
+                ))}
+            </ul>
+        </CreditSection>
+    );
+};
 
 export default MovieCredit;
 
-const Block=styled.div`
-    display: flex;
-    flex-wrap: wrap; /* 요소들이 줄바꿈되도록 설정 */
+const CreditSection = styled.section`
     color: white;
-    background-color: black;
-    padding: 20px; /* 추가된 패딩 */
-    justify-content: center;
-    align-items: center;
-    gap:10px;
-`
+    margin-top: 20px;
+    h3 {
+        font-size: 1.5rem;
+        font-weight: bold;
+    }
+    ul {
+        list-style-type: none;
+        padding: 0;
+    }
+    li {
+        margin: 5px 0;
+        font-size: 1rem;
+    }
+`;
+
+const ErrorMessage = styled.div`
+    color: red;
+    font-size: 18px;
+    text-align: center;
+`;
+
+const LoadingMessage = styled.div`
+    text-align: center;
+    font-size: 18px;
+`;

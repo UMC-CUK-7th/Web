@@ -1,5 +1,6 @@
 import './App.css';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
 // 페이지 컴포넌트들 import
 import HomePage from './pages/home.jsx';
@@ -12,7 +13,12 @@ import LoginPage from './pages/login.jsx';
 import SearchPage from './pages/search.jsx';
 import MoviesLayout from './layout/movies-layout.jsx';
 import MovieDetailPage from './pages/movieDetail.jsx';
+import GenrePage from './pages/genre.jsx';
+import ProfilePage from './pages/profile.jsx';
 import { AuthProvider } from './context/AuthContext.jsx';
+
+// QueryClient 생성
+const queryClient = new QueryClient();
 
 // 라우팅 설정
 const router = createBrowserRouter([
@@ -35,19 +41,19 @@ const router = createBrowserRouter([
           },
           {
             path: 'popular',
-            element: <MoviesPage url='/movie/popular?language=ko-KR&page=1' />,
+            element: <MoviesPage url='/movie/popular?language=ko-KR' />,
           },
           {
             path: 'now-playing',
-            element: <MoviesPage url='/movie/now_playing?language=ko-KR&page=1' />,
+            element: <MoviesPage url='/movie/now_playing?language=ko-KR' />,
           },
           {
             path: 'top-rated',
-            element: <MoviesPage url='/movie/top_rated?language=ko-KR&page=1' />,
+            element: <MoviesPage url='/movie/top_rated?language=ko-KR' />,
           },
           {
             path: 'up-coming',
-            element: <MoviesPage url='/movie/upcoming?language=ko-KR&page=1' />,
+            element: <MoviesPage url='/movie/upcoming?language=ko-KR' />,
           },
           {
             path: ':movieId',
@@ -67,6 +73,14 @@ const router = createBrowserRouter([
         path: 'search',
         element: <SearchPage />,
       },
+      {
+        path: 'genres',
+        element: <GenrePage />,
+      },
+      {
+        path: 'profile',
+        element: <ProfilePage />, 
+      },
     ],
   },
 ]);
@@ -74,7 +88,10 @@ const router = createBrowserRouter([
 function App() {
   return (
     <AuthProvider>
-            <RouterProvider router={router}/>
+      {/* QueryClientProvider로 앱을 감싸기 */}
+      <QueryClientProvider client={queryClient}>
+        <RouterProvider router={router} />
+      </QueryClientProvider>
     </AuthProvider>
   );
 }
