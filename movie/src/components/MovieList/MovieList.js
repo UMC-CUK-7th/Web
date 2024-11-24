@@ -1,64 +1,71 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
+import { useInfiniteQuery } from '@tanstack/react-query';
 import MovieCard from '../MovieCard/MovieCard';
-import * as S from './Styles'; 
+import Skeleton from '../Skeleton/Skeleton';
+import * as S from './Styles';
+import { fetchMoviesByCategory } from '../../api/movies';
+import LoginSpinner from '../LoginSpinner';
 
-const MovieList = ({ category, isCircular = false }) => { // isCircular prop 추가
-  const [movies, setMovies] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+const MovieList = ({ category, isCircular = false }) => {
+  const [currentPageIndex, setCurrentPageIndex] = useState(0);
 
-  // 유효한 category 값 확인
-  const validCategories = ['now_playing', 'popular', 'top_rated', 'upcoming'];
-  const selectedCategory = validCategories.includes(category) ? category : 'popular';
+  const {
+    data,
+    isLoading,
+    error,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+  } = useInfiniteQuery({
+    queryKey: ['movies', category],
+    queryFn: ({ pageParam = 1 }) => fetchMoviesByCategory(category, pageParam),
+    getNextPageParam: (lastPage) => {
+      return lastPage.page < lastPage.total_pages ? lastPage.page + 1 : undefined;
+    },
+    staleTime: 5 * 60 * 1000,
+  });
 
-  useEffect(() => {
-    const fetchMovies = async () => {
-      setLoading(true);
-      setError(null);
+  const handleNextPage = () => {
+    if (currentPageIndex === (data?.pages.length || 0) - 1) {
+      fetchNextPage();
+    }
+    setCurrentPageIndex((prev) => prev + 1);
+  };
 
-      // 요청 URL 설정
-      const url = `https://api.themoviedb.org/3/movie/${selectedCategory}?language=ko-KR`;
-      console.log("Fetching movies from:", url);
+  const handlePreviousPage = () => {
+    setCurrentPageIndex((prev) => Math.max(prev - 1, 0));
+  };
 
-      try {
-        const response = await fetch(url, {
-          method: 'GET',
-          headers: {
-            Authorization:
-              'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI1YjJkOTcxODM4OWY5MDliZmZlODk2ZGU4ZDZiZTg1ZCIsIm5iZiI6MTcyOTgyNzc1Ny43NTc4MTEsInN1YiI6IjY3MWIxMDk2NDU0MmUzNzFmZTBhNzA1ZiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.EuHMEBUdesbPDjTBxtndzV4CJAziDVnlvH0v44-2OLM',
-          },
-        });
-
-        if (!response.ok) {
-          throw new Error(`Failed to fetch movies: ${response.status}`);
-        }
-
-        const data = await response.json();
-        setMovies(data.results || []);
-      } catch (error) {
-        setError(error.message);
-        setMovies([]);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchMovies();
-  }, [selectedCategory]);
+  const currentPageData = data?.pages[currentPageIndex]?.results || [];
 
   return (
     <S.MovieListContainer>
-      {loading ? (
-        <S.Message>Loading...</S.Message>
+      {isLoading ? (
+        <>
+          <Skeleton />
+          <Skeleton />
+          <Skeleton />
+          <Skeleton />
+        </>
       ) : error ? (
-        <S.Message>Error: {error}</S.Message>
-      ) : movies.length > 0 ? (
-        movies.map((movie) => (
-          <MovieCard key={movie.id} movie={movie} isCircular={isCircular} /> // isCircular 전달
+        <S.Message>Error: {error.message}</S.Message>
+      ) : currentPageData.length > 0 ? (
+        currentPageData.map((movie) => (
+          <MovieCard key={movie.id} movie={movie} isCircular={isCircular} />
         ))
       ) : (
         <S.Message>No movies found.</S.Message>
       )}
+      <S.LoadMoreContainer>
+        <S.LoadMoreButton onClick={handlePreviousPage} disabled={currentPageIndex === 0}>
+          이전
+        </S.LoadMoreButton>
+        <S.PageIndicator>Page {currentPageIndex + 1}</S.PageIndicator>
+        <S.LoadMoreButton onClick={handleNextPage} disabled={!hasNextPage && currentPageIndex === (data?.pages.length || 0) - 1}>
+          {isFetchingNextPage ? 'Loading more...' : '다음'}
+        </S.LoadMoreButton>
+        {isFetchingNextPage && <LoginSpinner />}
+      </S.LoadMoreContainer>
     </S.MovieListContainer>
   );
 };
